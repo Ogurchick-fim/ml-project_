@@ -10,6 +10,11 @@
     <div class="container">
         <h1>Car Listings</h1>
         <a class="btn" href="/add">Add New Car</a>
+        <form method="get" action="/">
+            <input class="input_search" type="text" name="search" placeholder="Search by model" value="{{ search_query }}">
+            <button class= "search_btn" type="submit">Search</button>
+        </form>
+        
         <table>
             <thead>
                 <tr>

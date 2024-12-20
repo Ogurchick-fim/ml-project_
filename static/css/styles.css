@@ -6,9 +6,33 @@ body {
     padding: 0;
 }
 
+.search_btn{
+    height: 30px;
+    margin-left: 20px;
+    width: 100px;
+    border: none;
+    color: white;
+    background-color: #4CAF50;
+    border-radius: 10px;
+
+}
+.input_search{
+    height: 30px;
+    margin-top: 30px;
+    width: 250px;
+    height: 30px;
+    border: solid 1px #8f8f8f;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+input:hover{
+    transition: 0.2s;
+    border: solid 1px #003cff;
+}
+b
 .container {
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 0 auto;
     background: #fff;
     padding: 20px;
     border-radius: 10px;

@@ -3,23 +3,35 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# Route to display cars with sorting
+# Route to display cars with sorting and search functionality
 @app.route('/')
 def index():
     sort_by = request.args.get('sort_by', 'car_model')  # Default sort by car_model
     order = request.args.get('order', 'asc')
     reverse_order = 'desc' if order == 'asc' else 'asc'
+    search_query = request.args.get('search', '')  # Search query for car model
 
     conn = sqlite3.connect('list.db')
     c = conn.cursor()
-    query = f"SELECT * FROM cars ORDER BY {sort_by} {order}"
-    c.execute(query)
+
+    # Modify query based on search input
+    if search_query:
+        query = f"""
+        SELECT * FROM cars 
+        WHERE car_model LIKE ? 
+        ORDER BY {sort_by} {order}
+        """
+        c.execute(query, (f"%{search_query}%",))
+    else:
+        query = f"SELECT * FROM cars ORDER BY {sort_by} {order}"
+        c.execute(query)
+
     cars = c.fetchall()
     conn.close()
     print(cars)
 
 
-    return render_template('index.html', cars=cars, sort_by=sort_by, order=order, reverse_order=reverse_order)
+    return render_template('index.html', cars=cars, sort_by=sort_by, order=order, reverse_order=reverse_order, search_query=search_query)
 
 # Route to add a new car
 @app.route('/add', methods=['GET', 'POST'])
