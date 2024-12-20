@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Car Listings</h1>
+        <a class="btn" href="/add">Add New Car</a>
+        <table>
+            <thead>
+                <tr>
+                    {% for column, display_name in [("car_model", "Model"), ("year_of_production", "Year"), ("engine_volume", "Engine Volume"), ("mileage", "Mileage"), ("fuel", "Fuel"), ("steering_wheel_location", "Steering"), ("color", "Color"), ("body_type", "Body Type"), ("location", "Location"), ("price_in_usd", "Price (USD)")] %}
+                        <th>
+                            <a href="/?sort_by={{ column }}&order=asc">&#9650;</a>
+                            {{ display_name }}
+                            <a href="/?sort_by={{ column }}&order=desc">&#9660;</a>
+                        </th>
+                    {% endfor %}
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    {% for value in car[1:] %}
+                    <td>{{ value }}</td>
+                    {% endfor %}
+                    <td>
+                        <form action="/delete/{{ car[0] }}" method="post">
+                            <button class="btn-delete" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
