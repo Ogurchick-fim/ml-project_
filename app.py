@@ -10,12 +10,14 @@ def index():
     order = request.args.get('order', 'asc')
     reverse_order = 'desc' if order == 'asc' else 'asc'
 
-    conn = sqlite3.connect('cars.db')
+    conn = sqlite3.connect('list.db')
     c = conn.cursor()
     query = f"SELECT * FROM cars ORDER BY {sort_by} {order}"
     c.execute(query)
     cars = c.fetchall()
     conn.close()
+    print(cars)
+
 
     return render_template('index.html', cars=cars, sort_by=sort_by, order=order, reverse_order=reverse_order)
 
@@ -49,13 +51,14 @@ def add_car():
 # Route to delete a car
 @app.route('/delete/<int:car_id>', methods=['POST'])
 def delete_car(car_id):
+    print(f"Deleting car with ID: {car_id}")  # Debugging output
     conn = sqlite3.connect('cars.db')
     c = conn.cursor()
-    c.execute('DELETE FROM cars WHERE rowid = ?', (car_id,))
+    c.execute('DELETE FROM cars WHERE id = ?', (car_id,))
     conn.commit()
     conn.close()
-
     return redirect(url_for('index'))
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=6969, debug=True)
